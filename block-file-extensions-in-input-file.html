@@ -8,10 +8,10 @@
 </head>
 <body>
     <form action="">
-        <input type="file" name="files_uploads" id="files_uploads" multiple onchange="genericWatchCsvInputFile(this)" data-extensions="csv,pdf">
+        <input type="file" name="files_uploads" id="files_uploads" multiple onchange="blockExtensionsFileInput(this)" data-extensions="csv,pdf">
     </form>
     <script>
-        function genericWatchCsvInputFile(inputFile) 
+        function blockExtensionsFileInput(inputFile) 
         {
             /*
              * HOW TO USE
