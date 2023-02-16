@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block file extensions in input file</title>
+</head>
+<body>
+    <form action="">
+        <input type="file" name="files_uploads" id="files_uploads" multiple onchange="genericWatchCsvInputFile(this)" data-extensions="csv,pdf">
+    </form>
+    <script>
+        function genericWatchCsvInputFile(inputFile) 
+        {
+            /*
+             * HOW TO USE
+             * In the field input[type=file] put onchange="genericWatchCsvInputFile(this)" data-extensions="csv,pdf"
+             * Within data-extensions: put the allowed extensions separated by commas
+             * Inside data-extensions: DO NOT use the extension dot just the nomenclature
+             */
+
+            let inputPropsItens =  document.querySelectorAll(`#${inputFile.id}`)[0].files
+            let inputNameFile = ""
+            let inputExtensionFile = ""
+            let inputExtensionFileAccept = inputFile.dataset.extensions
+            let findExtensionDenied = false
+            let inputExtensionFileAcceptArray = inputExtensionFileAccept.split(',')
+            let totalExtensions = inputExtensionFileAcceptArray.length
+            let numberExtensionsError = 0;
+            let menssageError = `Só é permitido as extensões ${inputExtensionFileAccept}, revise abaixo os arquivos incompátiveis:\n`
+            
+            Object.entries(inputPropsItens).forEach((item) => 
+            {
+                inputNameFile = item[1].name
+                inputExtensionFile = inputNameFile.split('.')[inputNameFile.split('.').length-1]
+
+                inputExtensionFileAcceptArray.map((item) =>
+                {
+                    if(inputExtensionFile !== item)
+                        numberExtensionsError++;
+                })
+                
+                if(numberExtensionsError >= totalExtensions)
+                {
+                    findExtensionDenied = true
+                    menssageError += `-Arquivo ${inputNameFile} extensão ${inputExtensionFile} não é permitida\n`
+                }
+                
+                numberExtensionsError = 0
+            })
+
+            if(findExtensionDenied)
+            {
+                inputFile.value = ""
+                alert(menssageError)
+            }
+        }
+    </script>
+</body>
+</html>
